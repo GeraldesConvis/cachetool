@@ -49,7 +49,7 @@ read -r -d '' JSON <<EOF
 {
   "name": "cachetool.phar",
   "sha1": "${SHA1}",
-  "url": "https://github.com/gordalina/cachetool/releases/download/cachetool-${TAG}.phar",
+  "url": "https://github.com/GeraldesConvis/cachetool/releases/download/cachetool-${TAG}.phar",
   "version": "${TAG}"
 }
 EOF

@@ -1,6 +1,7 @@
 {
-    "name": "gordalina/cachetool",
+    "name": "convis/cachetool",
     "description": "Manage your OPcache & APCu cache through the CLI",
+    "version": "11.0.0",
     "keywords": [
         "cache",
         "opcache",
@@ -14,14 +15,13 @@
         "monolog/monolog": "^3.0",
         "php": ">=8.1.0",
         "psr/log": "^2.0 || ^3.0",
-        "symfony/console": "^6.0",
-        "symfony/dependency-injection": "^6.0",
-        "symfony/finder": "^6.0",
-        "symfony/process": "^6.0",
-        "symfony/yaml": "^6.0",
-        "symfony/http-client": "^6.0",
-        "symfony/http-foundation": "^6.0",
-        "consolidation/self-update": "~2.1.0"
+        "symfony/console": "^6.4 || ^7.0",
+        "symfony/finder": "^6.4 || ^7.0",
+        "symfony/process": "^6.4 || ^7.0",
+        "symfony/yaml": "^6.4 || ^7.0",
+        "symfony/http-client": "^6.4 || ^7.0",
+        "symfony/http-foundation": "^6.4 || ^7.0",
+        "consolidation/self-update": "^3.1"
     },
     "require-dev": {
         "phpunit/phpunit": "^9.0"
@@ -29,8 +29,8 @@
     "license": "MIT",
     "authors": [
         {
-            "name": "gordalina",
-            "email": "samuel.gordalina@gmail.com"
+            "name": "Geraldes",
+            "email": "geraldes.pereira@con-vis.de"
         }
     ],
     "autoload": {

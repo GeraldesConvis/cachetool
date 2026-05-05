@@ -3,8 +3,6 @@
 /*
  * This file is part of CacheTool.
  *
- * (c) Samuel Gordalina <samuel.gordalina@gmail.com>
- *
  * For the full copyright and license information, please view the LICENSE
  * file that was distributed with this source code.
  */
@@ -107,8 +105,8 @@ abstract class AbstractAdapter
     {
         $file = sprintf("%s/cachetool-%s.php", $this->tempDir, uniqid('', true));
 
-        touch($file);
-        chmod($file, 0666);
+        @touch($file);
+        @chmod($file, 0666);
 
         return $file;
     }

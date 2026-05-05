@@ -7,9 +7,11 @@
  * file that was distributed with this source code.
  */
 
-namespace CacheTool\Adapter\Http;
+namespace CacheTool\Command;
 
-interface HttpInterface
+use CacheTool\CacheTool;
+
+interface CacheToolAwareCommandInterface
 {
-    public function fetch($filename);
+    public function setCacheTool(CacheTool $cacheTool): void;
 }
