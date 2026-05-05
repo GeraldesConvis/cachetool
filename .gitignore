@@ -4,3 +4,4 @@ cachetool.phar*
 .phpunit.result.cache
 vendor
 box.*.json
+.idea

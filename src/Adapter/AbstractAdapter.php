@@ -107,8 +107,8 @@ abstract class AbstractAdapter
     {
         $file = sprintf("%s/cachetool-%s.php", $this->tempDir, uniqid('', true));
 
-        touch($file);
-        chmod($file, 0666);
+        @touch($file);
+        @chmod($file, 0666);
 
         return $file;
     }

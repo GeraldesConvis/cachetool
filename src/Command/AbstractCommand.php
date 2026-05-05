@@ -13,22 +13,24 @@ namespace CacheTool\Command;
 
 use CacheTool\CacheTool;
 use Symfony\Component\Console\Command\Command;
-use Symfony\Component\DependencyInjection\ContainerAwareInterface;
-use Symfony\Component\DependencyInjection\ContainerInterface;
 
-abstract class AbstractCommand extends Command implements ContainerAwareInterface
+abstract class AbstractCommand extends Command implements CacheToolAwareCommandInterface
 {
     /**
-     * @var ContainerInterface
+     * @var CacheTool|null
      */
-    protected $container;
+    protected $cacheTool;
 
     /**
      * @return CacheTool
      */
     protected function getCacheTool()
     {
-        return $this->container->get('cachetool');
+        if (!$this->cacheTool instanceof CacheTool) {
+            throw new \LogicException('CacheTool was not initialized for this command.');
+        }
+
+        return $this->cacheTool;
     }
 
     /**
@@ -44,8 +46,8 @@ abstract class AbstractCommand extends Command implements ContainerAwareInterfac
     /**
      * {@inheritdoc}
      */
-    public function setContainer(ContainerInterface $container = null)
+    public function setCacheTool(CacheTool $cacheTool): void
     {
-        $this->container = $container;
+        $this->cacheTool = $cacheTool;
     }
 }

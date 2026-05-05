@@ -18,18 +18,17 @@ use CacheTool\Adapter\Http\SymfonyHttpClient;
 use CacheTool\Adapter\Web;
 use CacheTool\CacheTool;
 use CacheTool\Command as CacheToolCommand;
+use CacheTool\Command\CacheToolAwareCommandInterface;
 use CacheTool\Monolog\ConsoleHandler;
 use Monolog\Logger;
 use SelfUpdate\SelfUpdateCommand;
+use SelfUpdate\SelfUpdateManager;
 use Symfony\Component\Console\Application as BaseApplication;
 use Symfony\Component\Console\Command\Command;
 use Symfony\Component\Console\Input\InputDefinition;
 use Symfony\Component\Console\Input\InputOption;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Output\OutputInterface;
-use Symfony\Component\DependencyInjection\ContainerAwareInterface;
-use Symfony\Component\DependencyInjection\Container;
-use Symfony\Component\DependencyInjection\ContainerInterface;
 
 class Application extends BaseApplication
 {
@@ -63,9 +62,7 @@ class Application extends BaseApplication
     {
         $commands = parent::getDefaultCommands();
         $commands[] = new SelfUpdateCommand(
-            'gordalina/cachetool',
-            '@package_version@',
-            'gordalina/cachetool'
+            new SelfUpdateManager('convis/cachetool', $this->getSelfUpdateVersion(), 'convis/cachetool')
         );
 
         if (in_array('apcu', $this->config['extensions'], true)) {
@@ -99,6 +96,11 @@ class Application extends BaseApplication
         return $commands;
     }
 
+    private function getSelfUpdateVersion(): string
+    {
+        return self::VERSION === '@package_version@' ? '0.0.0' : self::VERSION;
+    }
+
     /**
      * {@inheritDoc}
      */
@@ -122,7 +124,7 @@ class Application extends BaseApplication
     /**
      * {@inheritDoc}
      */
-    public function doRun(InputInterface $input, OutputInterface $output)
+    public function doRun(InputInterface $input, OutputInterface $output): int
     {
         $handler = new ConsoleHandler();
         $handler->setOutput($output);
@@ -138,11 +140,10 @@ class Application extends BaseApplication
     /**
      * {@inheritDoc}
      */
-    public function doRunCommand(Command $command, InputInterface $input, OutputInterface $output)
+    public function doRunCommand(Command $command, InputInterface $input, OutputInterface $output): int
     {
-        if ($command instanceof ContainerAwareInterface) {
-            $container = $this->buildContainer($input);
-            $command->setContainer($container);
+        if ($command instanceof CacheToolAwareCommandInterface) {
+            $command->setCacheTool($this->buildCacheTool($input));
         }
 
         return parent::doRunCommand($command, $input, $output);
@@ -150,9 +151,9 @@ class Application extends BaseApplication
 
     /**
      * @param  InputInterface     $input
-     * @return ContainerInterface
+     * @return CacheTool
      */
-    public function buildContainer(InputInterface $input)
+    public function buildCacheTool(InputInterface $input): CacheTool
     {
         $this->parseConfiguration($input);
 
@@ -164,12 +165,7 @@ class Application extends BaseApplication
             $this->config['temp_dir'],
             $this->logger
         );
-
-        $container = new Container();
-        $container->set('cachetool', $cacheTool);
-        $container->set('logger', $this->logger);
-
-        return $container;
+        return $cacheTool;
     }
 
     /**

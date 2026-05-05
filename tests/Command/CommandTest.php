@@ -23,9 +23,9 @@ abstract class CommandTest extends \PHPUnit\Framework\TestCase
                 $this->mockData = $mockData;
             }
 
-            public function buildContainer(InputInterface $input)
+            public function buildCacheTool(InputInterface $input): CacheTool
             {
-                $container = parent::buildContainer($input);
+                parent::buildCacheTool($input);
 
                 $cacheTool = CacheTool::factory(
                     new class($this->mockData) extends \CacheTool\Adapter\Cli {
@@ -48,9 +48,8 @@ abstract class CommandTest extends \PHPUnit\Framework\TestCase
                     $this->config['temp_dir'],
                     $this->logger
                 );
-                $container->set('cachetool', $cacheTool);
 
-                return $container;
+                return $cacheTool;
             }
         };
         $app->setAutoExit(false);

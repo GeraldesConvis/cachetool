@@ -243,7 +243,7 @@ class CacheTool
         }
 
         if (!file_exists($tempDir)) {
-            mkdir($tempDir, 0700, true);
+            @mkdir($tempDir, 0700, true);
         }
 
         return $tempDir;
