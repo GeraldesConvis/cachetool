@@ -148,10 +148,10 @@ jobs:
           platforms: linux/amd64,linux/arm64
           push: true
           tags: |
-            gordalina/cachetool:latest
-            gordalina/cachetool:${{ steps.info.outputs.VERSION }}
-            ghcr.io/gordalina/cachetool:latest
-            ghcr.io/gordalina/cachetool:${{ steps.info.outputs.VERSION }}
+            convis/cachetool:latest
+            convis/cachetool:${{ steps.info.outputs.VERSION }}
+            ghcr.io/convis/cachetool:latest
+            ghcr.io/convis/cachetool:${{ steps.info.outputs.VERSION }}
 
       - name: Build & tag images (${{ steps.info.outputs.VERSION }})
         if: ${{ contains(github.ref, '-') }}
@@ -166,8 +166,8 @@ jobs:
           platforms: linux/amd64,linux/arm64
           push: true
           tags: |
-            gordalina/cachetool:${{ steps.info.outputs.VERSION }}
-            ghcr.io/gordalina/cachetool:${{ steps.info.outputs.VERSION }}
+            convis/cachetool:${{ steps.info.outputs.VERSION }}
+            ghcr.io/convis/cachetool:${{ steps.info.outputs.VERSION }}
 
       - name: Create GitHub Release
         id: create_release
@@ -187,7 +187,7 @@ jobs:
             LICENSE
           body: |
             ## Changelog
-            The full changelog can be found in our [changelog file](https://github.com/gordalina/cachetool/blob/${{ steps.info.outputs.VERSION }}/CHANGELOG.md)
+            The full changelog can be found in our [changelog file](https://github.com/GeraldesConvis/cachetool/blob/${{ steps.info.outputs.VERSION }}/CHANGELOG.md)
 
       - name: Update GitHub Pages
         if: ${{ !contains(github.ref, '-') }}
